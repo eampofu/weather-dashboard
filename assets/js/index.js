@@ -8,13 +8,12 @@ var lon;
 weatherSection.text("5 Day Weather Forecast: ");
 // function to get weather data
 function getWeatherData(cityName) {
-	var cityUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${ApiKey}&cnt=1`;
+	var cityUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${ApiKey}&units=metric`;
 	fetch(cityUrl)
 		.then(function (response) {
 			return response.json();
 		})
 		.then(function (data) {
-			
 			// Check whether the query was successful
 			var respcode = data.cod;
 			if (respcode === "200") {
@@ -22,7 +21,7 @@ function getWeatherData(cityName) {
 
 				lat = data.city.coord.lat;
 				lon = data.city.coord.lon;
-				var queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${ApiKey}`;
+				var queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${ApiKey}&units=metric`;
 
 				fetch(queryURL)
 					.then(function (response) {
@@ -42,7 +41,7 @@ function getWeatherData(cityName) {
 						$("#today").empty();
 						console.log(data);
 						weatherSection.append($("<div>").text("5 day weather Forecast"));
-						
+
 						// add today's temperature here
 						iconCode = weatherList[0].weather[0].icon;
 						iconURL = "https://openweathermap.org/img/w/" + iconCode + ".png";
@@ -58,7 +57,11 @@ function getWeatherData(cityName) {
 								.addClass("card-title")
 								.append(
 									$("<h1>")
-										.text(dayjs(weatherList[0].dt_txt).format("DD/MM/YYYY"))
+										.text(
+											data.city.name +
+												" " +
+												dayjs(weatherList[0].dt_txt).format("DD/MM/YYYY")
+										)
 										.append(imgtag)
 								)
 						);
@@ -82,7 +85,6 @@ function getWeatherData(cityName) {
 						for (var i = 0; i < weatherList.length; i += 7) {
 							const el = weatherList[i];
 
-							
 							iconCode = el.weather[0].icon;
 							iconURL = "https://openweathermap.org/img/w/" + iconCode + ".png";
 							cardDiv = $("<div>");
@@ -126,7 +128,6 @@ function getWeatherData(cityName) {
 
 function saveCity(cityName) {
 	var cityHistory = JSON.parse(localStorage.getItem("savedHistory"));
-	
 
 	if (!cityHistory.find((item) => item === cityName)) {
 		cityHistory.push(cityName);
@@ -160,16 +161,13 @@ $("#search-button").on("click", function (event) {
 var cityHistory = JSON.parse(localStorage.getItem("savedHistory"));
 if (!cityHistory) {
 	localStorage.setItem("savedHistory", JSON.stringify([]));
+} else {
+	console.log(cityHistory);
+	loadSearchHistory(cityHistory);
+	historyDiv.on("click", function (event) {
+		event.preventDefault();
+		var city = event.target.id;
 
-}else{
-
-
-console.log(cityHistory)
-loadSearchHistory(cityHistory);
-historyDiv.on("click",function(event){
-    event.preventDefault();
-    var city=event.target.id
-   
-    getWeatherData(city)
-})
+		getWeatherData(city);
+	});
 }

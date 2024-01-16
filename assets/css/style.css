@@ -1,12 +1,15 @@
 .card{
-    background-color: #eaf3d9;
-   
+   /* // background-color: #858eb6; */
+    background-image: linear-gradient(to top right, rgb(0, 0, 255), rgb(26, 7, 56));
+color: white;
     border-style:solid;
     border-width: 2px;
     margin:10px
    
 }
-
+.weather-header{
+    background-image: linear-gradient(to top right, rgba(81, 81, 232, 0.965), rgb(26, 7, 56));
+}
     .search-button{
         background-color: #9682bd;
         color: #ffff;
@@ -16,7 +19,7 @@
 button {
     padding: 5px;
     margin-top: 10px;
-    background-color: #9682bd;
+    background-color: #7276ba;
     color: #ffff;
     border: none;
   }
