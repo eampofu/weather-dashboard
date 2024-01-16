@@ -1,7 +1,7 @@
 var historyDiv = $("#history");
 var searchInput = $("#search-input");
 var weatherSection = $("#forecast");
-var ApiKey = "0dc2e4aef9c53ae1be98352041f29566";
+var ApiKey = "329693217290e9a93b8bbbffb9641eb2";
 
 var lat;
 var lon;
