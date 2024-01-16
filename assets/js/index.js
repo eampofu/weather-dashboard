@@ -14,10 +14,10 @@ function getWeatherData(cityName) {
 			return response.json();
 		})
 		.then(function (data) {
-			console.log("get data");
+			
 			// Check whether the query was successful
-			var code = data.cod;
-			if (code === "200") {
+			var respcode = data.cod;
+			if (respcode === "200") {
 				// if successfully continue to get the weather based on the coordinates
 
 				lat = data.city.coord.lat;
@@ -42,7 +42,7 @@ function getWeatherData(cityName) {
 						$("#today").empty();
 						console.log(data);
 						weatherSection.append($("<div>").text("5 day weather Forecast"));
-						console.log(weatherList.length);
+						
 						// add today's temperature here
 						iconCode = weatherList[0].weather[0].icon;
 						iconURL = "https://openweathermap.org/img/w/" + iconCode + ".png";
@@ -82,7 +82,7 @@ function getWeatherData(cityName) {
 						for (var i = 0; i < weatherList.length; i += 7) {
 							const el = weatherList[i];
 
-							console.log(el);
+							
 							iconCode = el.weather[0].icon;
 							iconURL = "https://openweathermap.org/img/w/" + iconCode + ".png";
 							cardDiv = $("<div>");
@@ -117,7 +117,7 @@ function getWeatherData(cityName) {
 						// create a button and add the city name to the the button
 						saveCity(data.city.name);
 					});
-			} else if (code === "404") {
+			} else if (respcode === "404") {
 				// if city was found tell user
 				alert(data.message);
 			}
@@ -126,7 +126,7 @@ function getWeatherData(cityName) {
 
 function saveCity(cityName) {
 	var cityHistory = JSON.parse(localStorage.getItem("savedHistory"));
-	console.log("add this to array" + cityName);
+	
 
 	if (!cityHistory.find((item) => item === cityName)) {
 		cityHistory.push(cityName);
@@ -138,7 +138,7 @@ function loadSearchHistory(arrOfCities) {
 	historyDiv.empty();
 	arrOfCities.forEach(function (item) {
 		var btn = $("<button>");
-		btn.attr("data-city", item);
+		btn.attr("id", item);
 		btn.text(item);
 		// add the button to the History div
 		historyDiv.append(btn);
@@ -160,5 +160,16 @@ $("#search-button").on("click", function (event) {
 var cityHistory = JSON.parse(localStorage.getItem("savedHistory"));
 if (!cityHistory) {
 	localStorage.setItem("savedHistory", JSON.stringify([]));
-}
+
+}else{
+
+
+console.log(cityHistory)
 loadSearchHistory(cityHistory);
+historyDiv.on("click",function(event){
+    event.preventDefault();
+    var city=event.target.id
+   
+    getWeatherData(city)
+})
+}
