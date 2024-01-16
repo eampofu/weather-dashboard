@@ -1,3 +1,26 @@
 .card{
-    background-color: blueviolet;
+    background-color: #eaf3d9;
+   
+    border-style:solid;
+    border-width: 2px;
+    margin:10px
+   
 }
+
+    .search-button{
+        background-color: #9682bd;
+        color: #ffff;
+        margin-left: 20px;
+    }
+
+button {
+    padding: 5px;
+    margin-top: 10px;
+    background-color: #9682bd;
+    color: #ffff;
+    border: none;
+  }
+ 
+  .input-group{
+display:grid
+  }

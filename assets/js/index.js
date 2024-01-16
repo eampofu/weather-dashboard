@@ -41,7 +41,7 @@ function getWeatherData(cityName) {
 						weatherSection.empty();
 						$("#today").empty();
 						console.log(data);
-						weatherSection.append($("<div>").text("5 day weather foecast"));
+						weatherSection.append($("<div>").text("5 day weather Forecast"));
 						console.log(weatherList.length);
 						// add today's temperature here
 						iconCode = weatherList[0].weather[0].icon;
