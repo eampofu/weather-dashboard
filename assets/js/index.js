@@ -88,8 +88,8 @@ function getWeatherData(cityName) {
 							cardDiv = $("<div>");
 							cardDiv.addClass("card col-md-2");
 							cardHeaderDiv = $("<h5>");
-						cardHeaderDiv.text(dayjs(el.dt_txt).format("DD/MM/YYYY"));
-						
+							cardHeaderDiv.text(dayjs(el.dt_txt).format("DD/MM/YYYY"));
+
 							cardbodyDiv = $("<div>");
 							cardbodyDiv.addClass("card-body");
 							imgtag = $("<img>");
@@ -115,16 +115,34 @@ function getWeatherData(cityName) {
 						}
 
 						// create a button and add the city name to the the button
-						var btn = $("<button>");
-						btn.text(data.city.name);
-						// add the button to the History div
-						historyDiv.append(btn);
+						saveCity(data.city.name);
 					});
 			} else if (code === "404") {
 				// if city was found tell user
 				alert(data.message);
 			}
 		});
+}
+
+function saveCity(cityName) {
+	var cityHistory = JSON.parse(localStorage.getItem("savedHistory"));
+	console.log("add this to array" + cityName);
+
+	if (!cityHistory.find((item) => item === cityName)) {
+		cityHistory.push(cityName);
+		localStorage.setItem("savedHistory", JSON.stringify(cityHistory));
+	}
+	loadSearchHistory(cityHistory);
+}
+function loadSearchHistory(arrOfCities) {
+	historyDiv.empty();
+	arrOfCities.forEach(function (item) {
+		var btn = $("<button>");
+		btn.attr("data-city", item);
+		btn.text(item);
+		// add the button to the History div
+		historyDiv.append(btn);
+	});
 }
 //Search button click event
 $("#search-button").on("click", function (event) {
@@ -139,3 +157,8 @@ $("#search-button").on("click", function (event) {
 		alert("Enter a city first!");
 	}
 });
+var cityHistory = JSON.parse(localStorage.getItem("savedHistory"));
+if (!cityHistory) {
+	localStorage.setItem("savedHistory", JSON.stringify([]));
+}
+loadSearchHistory(cityHistory);
